@@ -11,11 +11,13 @@ class App extends React.Component {
 			initialBoard: '',
 			board: ''
 		};
-		this.startNewGame = this.startNewGame.bind(this);
+		this.start = this.start.bind(this);
 		this.enterNumber = this.enterNumber.bind(this);
+		this.reset = this.reset.bind(this);
+		this.solve = this.solve.bind(this);
 	}
 
-	startNewGame() {
+	start() {
 		const newBoard = sudoku.generate('easy');
 		this.setState({
 			initialBoard: newBoard,
@@ -24,9 +26,7 @@ class App extends React.Component {
 	}
 	
 	enterNumber(el, ind) {
-
 		let boardArray = this.state.board.split('');
-
 		let newBoard = boardArray.map( (tile, i) => { 
 			if (i === ind) {
 				return tile = el;
@@ -42,6 +42,32 @@ class App extends React.Component {
 		console.log(this.state.board);
 	}
 
+	solve() {
+		let solvedBoard = sudoku.solve(this.state.board);
+		if (solvedBoard) {
+			this.setState({
+				board: solvedBoard
+			});
+		} else {
+			alert('Sorry, this sudoku can\'t be solved. You\'ve made a mistake. Try again!');
+		}
+	}
+
+	check() {
+		let solvedBoard = sudoku.solve(this.state.board);
+		if (solvedBoard) {
+			alert('Keep solving! You\'re on the right way :-)');
+		} else {
+			alert('Sorry, this sudoku can\'t be solved. You\'ve made a mistake. Try again!');
+		}
+	}
+
+	reset() {
+		this.setState({
+			board: this.state.initialBoard
+		});
+	}
+
 	render() {
 		return (
 			<div className="App">
@@ -51,10 +77,10 @@ class App extends React.Component {
 					onChange={this.enterNumber}
 				/>
 				<div className="buttons">
-					<button>Check</button>
-					<button onClick={this.startNewGame}>New Game</button>
-					<button>Solve</button>
-					<button>Restart</button>
+					<button onClick={this.check}>Check</button>
+					<button onClick={this.start}>New Game</button>
+					<button onClick={this.solve}>Solve</button>
+					<button onClick={this.reset}>Restart</button>
 				</div>
 			</div>
 		);
