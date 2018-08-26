@@ -1,15 +1,19 @@
 import React from 'react';
-import Board from './components/Board.js';
+import Board from './components/Board';
+import Option from './components/Option';
 import sudoku from 'sudoku-umd';
 import './App.css';
 
+const unsolvable = 'Sorry, this sudoku can\'t be solved. You\'ve made a mistake. Try again!',
+      solvable = 'Keep solving! You\'re on the right way :-)';
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       initialBoard: '',
-      board: ''
+      board: '',
+      level: ''
     };
     this.start = this.start.bind(this);
     this.enterNumber = this.enterNumber.bind(this);
@@ -18,11 +22,15 @@ class App extends React.Component {
     this.check = this.check.bind(this);
   }
 
-  start() {
-    const newBoard = sudoku.generate('easy');
+  start(e) {
+    let level = e.target.value;
+    if (!level) return;
+    let newBoard = sudoku.generate(level);
+    
     this.setState({
       initialBoard: newBoard, 
-      board: newBoard
+      board: newBoard,
+      level
     });
   }
 
@@ -49,17 +57,13 @@ class App extends React.Component {
         board: solvedBoard
       });
     } else {
-      alert('Sorry, this sudoku can\'t be solved. You\'ve made a mistake. Try again!');
+      alert(unsolvable);
     }
   }
 
   check() {
     let solvedBoard = sudoku.solve(this.state.board);
-    if (solvedBoard) {
-      alert('Keep solving! You\'re on the right way :-)');
-    } else {
-      alert('Sorry, this sudoku can\'t be solved. You\'ve made a mistake. Try again!');
-    }
+    solvedBoard ? alert(solvable) : alert(unsolvable);
   }
 
   reset() {
@@ -78,10 +82,19 @@ class App extends React.Component {
           onChange={this.enterNumber}
         />
         <div className="buttons">
-          <button onClick={this.check}>Check</button>
-          <button onClick={this.start}>New Game</button>
-          <button onClick={this.solve}>Solve</button>
-          <button onClick={this.reset}>Restart</button>
+          <button onClick={this.check}>CHECK</button>
+          <button type="text">NEW GAME</button>
+          <select value={this.state.level} onChange={this.start} >
+            <Option value='' text='Choose mode' />
+            <Option value='easy' text='easy' />
+            <Option value='medium' text='medium' />
+            <Option value='hard' text='hard' />
+            <Option value='very-hard' text='very hard' />
+            <Option value='insane' text='insane' />
+            <Option value='inhuman' text='inhuman' />
+          </select>
+          <button onClick={this.solve}>SOLVE</button>
+          <button onClick={this.reset}>RESTART</button>
         </div>
       </div>
     );
