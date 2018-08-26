@@ -3,23 +3,24 @@ import Tile from './Tile.js';
 
 class Board extends React.Component {
 
-	render() {
+  render() {
+    let boardArray = this.props.board.split(''),
+      initialBoardArray = this.props.initialBoard.split('');
 
-		let boardArrayOfStrings = this.props.board.split('');
-
-		return (
-			<form> 
-				{boardArrayOfStrings.map((el, ind) => (
-					<Tile 
-						key={ind} 
-						onChange={e => this.props.onChange(e, ind)} 
-						value={el === '.' ? '' : el}
-						// readOnly={boardArrayOfStrings[ind] === '.' ? false : true}
-					/>
-				))}
-			</form>
-		);
-	}
+    return (
+      <form>
+        {boardArray.map((el, ind) => {
+          return (
+            <Tile
+              key={ind}
+              onChange={e => this.props.onChange(e, ind)}
+              value={el === '.' ? '' : el}
+              readOnly={initialBoardArray[ind] === '.' ? false : true}
+            />);
+        })}
+      </form>
+    );
+  }
 }
 
 export default Board;
