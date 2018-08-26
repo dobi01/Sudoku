@@ -75,7 +75,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>Sudoku</h1>
         <Board
           board={this.state.board}
           initialBoard={this.state.initialBoard}
