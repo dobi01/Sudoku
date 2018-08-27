@@ -16,6 +16,7 @@ class Board extends React.Component {
               onChange={e => this.props.onChange(e, ind)}
               value={el === '.' ? '' : el}
               readOnly={initialBoardArray[ind] === '.' ? false : true}
+              className={initialBoardArray[ind] === '.' ? 'mutable-tile' : 'inmutable-tile'}
             />);
         })}
       </form>

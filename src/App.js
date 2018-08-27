@@ -6,7 +6,8 @@ import './App.css';
 
 const unsolvable = 'Sorry, this sudoku can\'t be solved. You\'ve made a mistake. Try again!',
       solvable = 'Keep solving! You\'re on the right way :-)';
-class App extends React.Component {
+
+      class App extends React.Component {
 
   constructor(props) {
     super(props);
@@ -74,26 +75,30 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <Board
-          board={this.state.board}
-          initialBoard={this.state.initialBoard}
-          onChange={this.enterNumber}
-        />
+      <div className="app">
+        <div className="board">
+          <Board
+            board={this.state.board}
+            initialBoard={this.state.initialBoard}
+            onChange={this.enterNumber}
+          />
+        </div>
         <div className="buttons">
-          <button onClick={this.check}>CHECK</button>
           <button type="text">NEW GAME</button>
-          <select value={this.state.level} onChange={this.start} >
-            <Option value='' text='Choose mode' />
-            <Option value='easy' text='easy' />
-            <Option value='medium' text='medium' />
-            <Option value='hard' text='hard' />
-            <Option value='very-hard' text='very hard' />
-            <Option value='insane' text='insane' />
-            <Option value='inhuman' text='inhuman' />
-          </select>
-          <button onClick={this.solve}>SOLVE</button>
+          <div className="select">
+            <select value={this.state.level} onChange={this.start} >
+              <Option value='' text='Choose mode' />
+              <Option value='easy' text='easy' />
+              <Option value='medium' text='medium' />
+              <Option value='hard' text='hard' />
+              <Option value='very-hard' text='very hard' />
+              <Option value='insane' text='insane' />
+              <Option value='inhuman' text='inhuman' />
+            </select>
+          </div>
+          <button onClick={this.check}>CHECK</button>
           <button onClick={this.reset}>RESTART</button>
+          <button onClick={this.solve}>SOLVE</button>
         </div>
       </div>
     );
