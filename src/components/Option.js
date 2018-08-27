@@ -2,7 +2,7 @@ import React from 'react';
 
 const Option = (props) => {
   return (
-    <option value={props.value} onChange={e => this.props.onClick(e)}>{props.text}</option>
+    <button className="levels" value={props.value} onClick={e => props.onClick(e)}>{props.text}</button>
   );
 };
 

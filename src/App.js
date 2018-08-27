@@ -5,22 +5,25 @@ import sudoku from 'sudoku-umd';
 import './App.css';
 
 const unsolvable = 'Sorry, this sudoku can\'t be solved. You\'ve made a mistake. Try again!',
-      solvable = 'Keep solving! You\'re on the right way :-)';
+      solvable = 'Keep solving! You\'re on the right way :-)',
+      solved = 'You solved the sudoku!';
 
-      class App extends React.Component {
+class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       initialBoard: '',
       board: '',
-      level: ''
+      level: '',
+      newGame: false
     };
     this.start = this.start.bind(this);
     this.enterNumber = this.enterNumber.bind(this);
     this.reset = this.reset.bind(this);
     this.solve = this.solve.bind(this);
     this.check = this.check.bind(this);
+    this.showLevels = this.showLevels.bind(this);
   }
 
   start(e) {
@@ -32,6 +35,13 @@ const unsolvable = 'Sorry, this sudoku can\'t be solved. You\'ve made a mistake.
       initialBoard: newBoard, 
       board: newBoard,
       level
+    });
+  }
+
+  showLevels() {
+    let toShow = this.state.newGame ? false : true;
+    this.setState({
+      newGame: toShow
     });
   }
 
@@ -64,6 +74,9 @@ const unsolvable = 'Sorry, this sudoku can\'t be solved. You\'ve made a mistake.
 
   check() {
     let solvedBoard = sudoku.solve(this.state.board);
+    if (solvedBoard === this.state.board) {
+      return alert(solved);
+    }
     solvedBoard ? alert(solvable) : alert(unsolvable);
   }
 
@@ -84,17 +97,20 @@ const unsolvable = 'Sorry, this sudoku can\'t be solved. You\'ve made a mistake.
           />
         </div>
         <div className="buttons">
-          <button type="text">NEW GAME</button>
+          <button type="text" onClick={this.showLevels}>NEW GAME</button>
           <div className="select">
-            <select value={this.state.level} onChange={this.start} >
-              <Option value='' text='Choose mode' />
-              <Option value='easy' text='easy' />
-              <Option value='medium' text='medium' />
-              <Option value='hard' text='hard' />
-              <Option value='very-hard' text='very hard' />
-              <Option value='insane' text='insane' />
-              <Option value='inhuman' text='inhuman' />
-            </select>
+            {this.state.newGame ? (
+              <div>
+                <Option value='easy' text='easy' onClick={this.start} />
+                <Option value='medium' text='medium' onClick={this.start}/>
+                <Option value='hard' text='hard' onClick={this.start}/>
+                <Option value='very-hard' text='very hard' onClick={this.start} />
+                <Option value='insane' text='insane' onClick={this.start}/>
+                <Option value='inhuman' text='inhuman'onClick={this.start} />
+              </div>
+            ) : (
+              false
+            )}
           </div>
           <button onClick={this.check}>CHECK</button>
           <button onClick={this.reset}>RESTART</button>

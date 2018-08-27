@@ -9,9 +9,16 @@
 }
 
 .buttons {
-  position: relative;
-  top: 50px;
-  left: 50px;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: 15%;
+  max-width: 150px; 
+  height: 495px;
+}
+
+.levels {
+  font-size: 20px;
 }
 
 button {
@@ -23,6 +30,10 @@ button {
   border: none;
   cursor: pointer;
   transition: ease-in-out .5s;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: scale(1.0); 
+  -webkit-transform: scale(1.0); 
 }
 
 button:hover {
