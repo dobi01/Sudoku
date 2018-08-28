@@ -4,8 +4,8 @@
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  width: 495px;
-  height: 495px;
+  width: 495.2px;
+  height: 495.2px;
 }
 
 .buttons {
@@ -14,11 +14,11 @@
   top: 50%;
   left: 15%;
   max-width: 150px; 
-  height: 495px;
+  height: 495.2px;
 }
 
 .show-menu-enter {
-  height: 0px;
+  height: 0;
   opacity: 0.01;
 }
 
@@ -35,7 +35,7 @@
 
 .show-menu-leave.show-menu-leave-active {
   opacity: 0.01;
-  height: 0px;
+  height: 0;
   transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
 }
 
@@ -55,11 +55,13 @@ button {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: scale(1.0); 
-  -webkit-transform: scale(1.0); 
+  -webkit-transform: scale(1.0);
+  outline: none;
 }
 
 button:hover {
   transform: scale(1.1);
+  background: rgba(0, 0, 0, 0.55);
 }
 
 option {
@@ -77,9 +79,18 @@ input {
   text-align: center;
   font-family: 'Nova Mono', monospace;
   font-size: 30px;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.45);
   color: #FFC1FF;
   border: none;
+  outline: none;
+}
+
+.border-right {
+  border-right: .1px solid #FFC1FF;
+}
+
+.border-top {
+  border-top: .1px solid #FFC1FF;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -93,7 +104,7 @@ input[type="number"] {
 
 .inmutable-tile {
   cursor: default;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.55);
 }
 
 .mutable-tile {
@@ -101,6 +112,6 @@ input[type="number"] {
   transition: ease-in-out .5s;
 }
 
-.mutable-tile:hover {
+.mutable-tile:hover, .mutable-tile:focus {
   background: rgba(0, 0, 0, 0.25);
 }

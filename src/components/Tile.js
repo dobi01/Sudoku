@@ -11,7 +11,7 @@ class Tile extends React.Component {
     if (value.length > 1) { 
       value = value.slice(0, 1);
     } else if (value.length === 0) {
-      value = ' ';
+      value = '.';
     }
     this.props.onChange(value);
   }
