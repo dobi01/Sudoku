@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
 import Board from './components/Board';
 import Option from './components/Option';
 import sudoku from 'sudoku-umd';
@@ -34,14 +35,14 @@ class App extends React.Component {
     this.setState({
       initialBoard: newBoard, 
       board: newBoard,
-      level
+      level,
+      newGame: false
     });
   }
 
   showLevels() {
-    let toShow = this.state.newGame ? false : true;
     this.setState({
-      newGame: toShow
+      newGame: true
     });
   }
 
@@ -87,6 +88,16 @@ class App extends React.Component {
   }
 
   render() {
+    const levelsMenu = 
+      <div key={this.className} className="levels-menu">
+        <Option value="easy" text="easy" onClick={this.start} />
+        <Option value="medium" text="medium" onClick={this.start} />
+        <Option value="hard" text="hard" onClick={this.start} />
+        <Option value="very-hard" text="very hard" onClick={this.start} />
+        <Option value="insane" text="insane" onClick={this.start} />
+        <Option value="inhuman" text="inhuman"onClick={this.start} />
+      </div>;
+
     return (
       <div className="app">
         <div className="board">
@@ -99,18 +110,12 @@ class App extends React.Component {
         <div className="buttons">
           <button type="text" onClick={this.showLevels}>NEW GAME</button>
           <div className="select">
-            {this.state.newGame ? (
-              <div>
-                <Option value='easy' text='easy' onClick={this.start} />
-                <Option value='medium' text='medium' onClick={this.start}/>
-                <Option value='hard' text='hard' onClick={this.start}/>
-                <Option value='very-hard' text='very hard' onClick={this.start} />
-                <Option value='insane' text='insane' onClick={this.start}/>
-                <Option value='inhuman' text='inhuman'onClick={this.start} />
-              </div>
-            ) : (
-              false
-            )}
+            <CSSTransitionGroup
+              transitionName="show-menu"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}>
+              {this.state.newGame ? levelsMenu : null}
+            </CSSTransitionGroup>
           </div>
           <button onClick={this.check}>CHECK</button>
           <button onClick={this.reset}>RESTART</button>

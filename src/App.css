@@ -17,6 +17,28 @@
   height: 495px;
 }
 
+.show-menu-enter {
+  height: 0px;
+  opacity: 0.01;
+}
+
+.show-menu-enter.show-menu-enter-active {
+  opacity: 1;
+  height: 180px;
+  transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
+}
+
+.show-menu-leave {
+  opacity: 1;
+  height: 180px;
+}
+
+.show-menu-leave.show-menu-leave-active {
+  opacity: 0.01;
+  height: 0px;
+  transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
+}
+
 .levels {
   font-size: 20px;
 }
