@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import Board from './components/Board';
-import Option from './components/Option';
+import LevelsMenu from './components/LevelsMenu';
 import sudoku from 'sudoku-umd';
 import './App.css';
 
@@ -88,15 +88,7 @@ class App extends React.Component {
   }
 
   render() {
-    const levelsMenu = 
-      <div key={this.className} className="levels-menu">
-        <Option value="easy" text="easy" onClick={this.start} />
-        <Option value="medium" text="medium" onClick={this.start} />
-        <Option value="hard" text="hard" onClick={this.start} />
-        <Option value="very-hard" text="very hard" onClick={this.start} />
-        <Option value="insane" text="insane" onClick={this.start} />
-        <Option value="inhuman" text="inhuman"onClick={this.start} />
-      </div>;
+    const levelsMenu = <LevelsMenu onClick={this.start} />;
 
     return (
       <div className="app">
