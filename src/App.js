@@ -5,9 +5,10 @@ import LevelsMenu from './components/LevelsMenu';
 import sudoku from 'sudoku-umd';
 import './App.css';
 
-const unsolvable = 'Sorry, this sudoku can\'t be solved. You\'ve made a mistake. Try again!',
+const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
       solvable = 'Keep solving! You\'re on the right way :-)',
-      solved = 'You solved the sudoku!';
+      solved = 'You\'ve solved the sudoku!';
+let alertClass = '';
 
 class App extends React.Component {
 
@@ -17,7 +18,8 @@ class App extends React.Component {
       initialBoard: '',
       board: '',
       level: '',
-      newGame: false
+      newGame: false,
+      alert: ''
     };
     this.start = this.start.bind(this);
     this.enterNumber = this.enterNumber.bind(this);
@@ -28,6 +30,7 @@ class App extends React.Component {
   }
 
   start(e) {
+    alertClass = '';
     let level = e.target.value;
     if (!level) return;
     let newBoard = sudoku.generate(level);
@@ -36,7 +39,8 @@ class App extends React.Component {
       initialBoard: newBoard, 
       board: newBoard,
       level,
-      newGame: false
+      newGame: false,
+      alert: ''
     });
   }
 
@@ -58,7 +62,8 @@ class App extends React.Component {
     let newBoardString = newBoard.join('');
 
     this.setState({
-      board: newBoardString
+      board: newBoardString,
+      alert: ''
     });
   }
 
@@ -69,22 +74,30 @@ class App extends React.Component {
         board: solvedBoard
       });
     } else {
-      alert(unsolvable);
+      this.setState({
+        alert: unsolvable
+      });
     }
   }
 
   check() {
     let solvedBoard = sudoku.solve(this.state.board);
     if (solvedBoard === this.state.board) {
-      return alert(solved);
+      this.setState({
+        alert: solved
+      });
+      alertClass = 'win';
+      return;
     }
-    solvedBoard ? alert(solvable) : alert(unsolvable);
+    solvedBoard ? this.setState({ alert: solvable }) : this.setState({ alert: unsolvable });
   }
 
   reset() {
     this.setState({
-      board: this.state.initialBoard
+      board: this.state.initialBoard,
+      alert: ''
     });
+    alertClass = '';
   }
 
   render() {
@@ -92,6 +105,7 @@ class App extends React.Component {
 
     return (
       <div className="app">
+        <span className={alertClass}>{this.state.alert}</span>
         <div className="board">
           <Board
             board={this.state.board}
@@ -103,6 +117,7 @@ class App extends React.Component {
           <button type="text" onClick={this.showLevels}>NEW GAME</button>
           <div className="select">
             <CSSTransitionGroup
+              component="div"
               transitionName="show-menu"
               transitionEnterTimeout={500}
               transitionLeaveTimeout={500}>

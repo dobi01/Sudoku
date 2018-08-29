@@ -83,6 +83,7 @@ input {
   color: #FFC1FF;
   border: none;
   outline: none;
+  line-height: 55px;
 }
 
 .border-right {
@@ -114,4 +115,33 @@ input[type="number"] {
 
 .mutable-tile:hover, .mutable-tile:focus {
   background: rgba(0, 0, 0, 0.25);
+}
+
+span {
+  text-align: center;
+  display: block;
+  position: absolute;
+  transform: translate(-50%, -9%);
+  top: 9%;
+  left: 50%;
+  font-family: 'Nova Mono', monospace;
+  font-size: 20px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #FFC1FF;
+  width: 495.2px;
+}
+
+.win {
+  -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon2 1.5s ease-in-out infinite alternate;
+  animation: neon2 1.5s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes neon2 {
+  from {
+    text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #6900ff, 0 0 70px #6900ff, 0 0 80px #6900ff, 0 0 100px #6900ff, 0 0 150px #6900ff;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #6900ff, 0 0 35px #6900ff, 0 0 40px #6900ff;
+  }
 }
