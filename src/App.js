@@ -102,11 +102,18 @@ class App extends React.Component {
 
   render() {
     const levelsMenu = <LevelsMenu onClick={this.start} />;
+    let alertSpan = <span className={alertClass}>{this.state.alert}</span>;
 
     return (
       <div className="app">
-        <span className={alertClass}>{this.state.alert}</span>
         <div className="board">
+          <CSSTransitionGroup
+            component="div"
+            transitionName="show-alert"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}>
+            {this.state.alert ? alertSpan : null}
+          </CSSTransitionGroup>
           <Board
             board={this.state.board}
             initialBoard={this.state.initialBoard}

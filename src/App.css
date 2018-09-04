@@ -17,28 +17,6 @@
   height: 495.2px;
 }
 
-.show-menu-enter {
-  height: 0;
-  opacity: 0.01;
-}
-
-.show-menu-enter.show-menu-enter-active {
-  opacity: 1;
-  height: 180px;
-  transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
-}
-
-.show-menu-leave {
-  opacity: 1;
-  height: 180px;
-}
-
-.show-menu-leave.show-menu-leave-active {
-  opacity: 0.01;
-  height: 0;
-  transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
-}
-
 .levels {
   font-size: 20px;
 }
@@ -117,13 +95,9 @@ input[type="number"] {
   background: rgba(0, 0, 0, 0.25);
 }
 
-span {
+.board span {
   text-align: center;
   display: block;
-  position: absolute;
-  transform: translate(-50%, -9%);
-  top: 9%;
-  left: 50%;
   font-family: 'Nova Mono', monospace;
   font-size: 20px;
   background: rgba(0, 0, 0, 0.35);
@@ -132,16 +106,59 @@ span {
 }
 
 .win {
-  -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon2 1.5s ease-in-out infinite alternate;
-  animation: neon2 1.5s ease-in-out infinite alternate;
+  -webkit-animation: neon 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon 1.5s ease-in-out infinite alternate;
+  animation: neon 1.5s ease-in-out infinite alternate;
 }
 
-@-webkit-keyframes neon2 {
+@-webkit-keyframes neon {
   from {
     text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #6900ff, 0 0 70px #6900ff, 0 0 80px #6900ff, 0 0 100px #6900ff, 0 0 150px #6900ff;
   }
   to {
     text-shadow: 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #6900ff, 0 0 35px #6900ff, 0 0 40px #6900ff;
   }
+}
+@keyframes neon {
+  from {
+    text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #6900ff, 0 0 70px #6900ff, 0 0 80px #6900ff, 0 0 100px #6900ff, 0 0 150px #6900ff;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #6900ff, 0 0 35px #6900ff, 0 0 40px #6900ff;
+  }
+}
+
+/* CSSTransitionGroups */
+
+.show-menu-enter, .show-alert-enter {
+  height: 0;
+  opacity: 0.01;
+}
+
+.show-menu-enter.show-menu-enter-active {
+  opacity: 1;
+  height: 180px;
+  transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
+}
+
+.show-menu-leave {
+  opacity: 1;
+  height: 180px;
+}
+
+.show-menu-leave.show-menu-leave-active, .show-alert-leave.show-alert-leave-active {
+  opacity: 0.01;
+  height: 0;
+  transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
+}
+
+.show-alert-enter.show-alert-enter-active {
+  opacity: 1;
+  height: 28px;
+  transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
+}
+
+.show-alert-leave {
+  opacity: 1;
+  height: 28px;
 }
