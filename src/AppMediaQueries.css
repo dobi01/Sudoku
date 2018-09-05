@@ -1,0 +1,93 @@
+@media (max-width: 1200px) {
+  #buttons, #board, .container span {
+    float: left;
+    position: static;
+  }
+  #buttons {
+    margin-right: 100px;
+  }
+  .container {
+    width: 800px;
+  }
+}
+
+@media (max-width: 915px) {
+  .fas {
+    display: inline-block;
+  }
+  #buttons {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    height: 370px;
+    width: 200px !important;
+  }
+  button {
+    font-size: 35px;
+    width: 200px;
+  }
+  .levels {
+    font-size: 25px;
+  }
+  .container {
+    width: 342.2px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+  #board {
+    width: 342.2px;
+  }
+  input {
+    height: 55px;
+    padding: 0;
+    width: 38px;
+    font-size: 25px;
+  }
+  .container span {
+    width: 342.2px;
+  }
+  .show-alert-enter.show-alert-enter-active {
+    opacity: 1;
+    height: 46px;
+    transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
+  }
+  .show-alert-leave {
+    opacity: 1;
+    height: 46px;
+  }
+  @media (max-width: 376px) {
+    .container {
+      width: 297.2px;
+    }
+    #board {
+      width: 297.2px;
+    }
+    input {
+      height: 55px;
+      width: 33px;
+      font-size: 23px;
+    }
+    .container span {
+      width: 297.2px;
+    }
+  }
+  @media (max-height: 660px) and (max-width: 376px) {
+    .container {
+      height: 387.2px;
+    }
+    #board {
+      height: 387.2px;
+    }
+    input {
+      height: 43px;
+      font-size: 23px;
+    }
+  }
+}
+
+.is-not-visible {
+	display: none;
+}

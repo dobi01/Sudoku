@@ -1,20 +1,43 @@
-.board {
+* {
+  /* border: 1px solid red; */
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.fas {
+  color: #FFC1FF;
+  font-size: 30px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+  display: none;
+}
+
+.container {
   text-align: center;
   position: absolute;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
+  height: 495.2px;
+}
+
+#board {
   width: 495.2px;
   height: 495.2px;
 }
 
-.buttons {
+#buttons {
   position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-  left: 15%;
-  max-width: 150px; 
+  left: -250px;
+  width: 150px; 
   height: 495.2px;
+  z-index: 10;
 }
 
 .levels {
@@ -40,14 +63,6 @@ button {
 button:hover {
   transform: scale(1.1);
   background: rgba(0, 0, 0, 0.55);
-}
-
-option {
-  font-family: 'Nova Mono', monospace;
-  font-size: 30px;
-  background: rgba(0, 0, 0, 0.35);
-  color: #FFC1FF;
-  border: none;
 }
 
 input {
@@ -77,6 +92,7 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -95,7 +111,7 @@ input[type="number"] {
   background: rgba(0, 0, 0, 0.25);
 }
 
-.board span {
+.container span {
   text-align: center;
   display: block;
   font-family: 'Nova Mono', monospace;
@@ -109,6 +125,7 @@ input[type="number"] {
   -webkit-animation: neon 1.5s ease-in-out infinite alternate;
   -moz-animation: neon 1.5s ease-in-out infinite alternate;
   animation: neon 1.5s ease-in-out infinite alternate;
+  animation-delay: .3s;
 }
 
 @-webkit-keyframes neon {

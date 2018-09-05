@@ -4,6 +4,7 @@ import Board from './components/Board';
 import LevelsMenu from './components/LevelsMenu';
 import sudoku from 'sudoku-umd';
 import './App.css';
+import './AppMediaQueries.css';
 
 const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
       solvable = 'Keep solving! You\'re on the right way :-)',
@@ -19,14 +20,19 @@ class App extends React.Component {
       board: '',
       level: '',
       newGame: false,
-      alert: ''
+      alert: '',
+      shownMenu: true,
+      width: window.innerWidth
     };
+
     this.start = this.start.bind(this);
     this.enterNumber = this.enterNumber.bind(this);
     this.reset = this.reset.bind(this);
     this.solve = this.solve.bind(this);
     this.check = this.check.bind(this);
-    this.showLevels = this.showLevels.bind(this);
+    this.toggleLevels = this.toggleLevels.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
+    this.toggleBoard = this.toggleBoard.bind(this);
   }
 
   start(e) {
@@ -34,6 +40,10 @@ class App extends React.Component {
     let level = e.target.value;
     if (!level) return;
     let newBoard = sudoku.generate(level);
+    
+    if (this.state.width <= 910) {
+      this.toggleMenu();
+    }
     
     this.setState({
       initialBoard: newBoard, 
@@ -44,7 +54,7 @@ class App extends React.Component {
     });
   }
 
-  showLevels() {
+  toggleLevels() {
     this.setState({
       newGame: true
     });
@@ -78,10 +88,16 @@ class App extends React.Component {
         alert: unsolvable
       });
     }
+    if (this.state.width <= 910) {
+      this.toggleMenu();
+    }
   }
 
   check() {
     let solvedBoard = sudoku.solve(this.state.board);
+    if (this.state.width <= 910) {
+      this.toggleMenu();
+    }
     if (solvedBoard === this.state.board) {
       this.setState({
         alert: solved
@@ -98,15 +114,52 @@ class App extends React.Component {
       alert: ''
     });
     alertClass = '';
+    if (this.state.width <= 910) {
+      this.toggleMenu();
+    }
+  }
+
+  toggleMenu() {
+    const menuDiv = document.getElementById('buttons');
+    menuDiv.classList.toggle('is-not-visible');
+    this.state.shownMenu ? this.setState({shownMenu: false}) : this.setState({shownMenu: true});
+    this.setState({
+      alert: ''
+    });
+    if (this.state.initialBoard && this.state.width <= 910) {
+      this.toggleBoard();
+    }
+  }
+
+  toggleBoard() {
+    const boardDiv = document.getElementById('board');
+    boardDiv.classList.toggle('is-not-visible');
   }
 
   render() {
+    console.log('render');
     const levelsMenu = <LevelsMenu onClick={this.start} />;
     let alertSpan = <span className={alertClass}>{this.state.alert}</span>;
 
     return (
       <div className="app">
-        <div className="board">
+        <i className="fas fa-bars" onClick={this.toggleMenu}></i>
+        <div className="container clearfix">
+          <div id="buttons">
+            <button type="text" onClick={this.toggleLevels}>NEW&nbsp;GAME</button>
+            <div className="select">
+              <CSSTransitionGroup
+                component="div"
+                transitionName="show-menu"
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={500}>
+                {this.state.newGame ? levelsMenu : null}
+              </CSSTransitionGroup>
+            </div>
+            <button onClick={this.check}>CHECK</button>
+            <button onClick={this.reset}>RESTART</button>
+            <button onClick={this.solve}>SOLVE</button>
+          </div>
           <CSSTransitionGroup
             component="div"
             transitionName="show-alert"
@@ -119,21 +172,6 @@ class App extends React.Component {
             initialBoard={this.state.initialBoard}
             onChange={this.enterNumber}
           />
-        </div>
-        <div className="buttons">
-          <button type="text" onClick={this.showLevels}>NEW GAME</button>
-          <div className="select">
-            <CSSTransitionGroup
-              component="div"
-              transitionName="show-menu"
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={500}>
-              {this.state.newGame ? levelsMenu : null}
-            </CSSTransitionGroup>
-          </div>
-          <button onClick={this.check}>CHECK</button>
-          <button onClick={this.reset}>RESTART</button>
-          <button onClick={this.solve}>SOLVE</button>
         </div>
       </div>
     );

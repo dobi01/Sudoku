@@ -8,7 +8,7 @@ class Board extends React.Component {
       initialBoardArray = this.props.initialBoard.split('');
 
     return (
-      <form>
+      <form id="board">
         {boardArray.map((el, ind) => {
           let initialTile = initialBoardArray[ind] === '.',
               verticalBorderTile,
