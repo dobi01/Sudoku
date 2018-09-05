@@ -7,8 +7,8 @@ import './App.css';
 import './AppMediaQueries.css';
 
 const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
-      solvable = 'Keep solving! You\'re on the right way :-)',
-      solved = 'You\'ve solved the sudoku! Wow!';
+  solvable = 'Keep solving! You\'re on the right way :-)',
+  solved = 'You\'ve solved the sudoku! Wow!';
 let alertClass = '';
 
 class App extends React.Component {
@@ -93,7 +93,6 @@ class App extends React.Component {
         alert: unsolvable
       });
     }
-
   }
 
   check() {
@@ -161,8 +160,8 @@ class App extends React.Component {
         <button onClick={this.check}>CHECK</button>
         <button onClick={this.reset}>RESTART</button>
         <button onClick={this.solve}>SOLVE</button>
-      </div>;
-    let alertSpan = <span className={alertClass}>{this.state.alert}</span>;
+      </div>,
+      alertSpan = <span className={alertClass}>{this.state.alert}</span>;
 
     return (
       <div className="app">
