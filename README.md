@@ -1,3 +1,5 @@
-// WORK IN PROGRESS
+# Sudoku
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+Enjoy!
