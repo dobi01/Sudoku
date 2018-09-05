@@ -147,23 +147,23 @@ input[type="number"] {
 
 /* CSSTransitionGroups */
 
-.show-menu-enter, .show-alert-enter {
+.show-levels-enter, .show-alert-enter {
   height: 0;
   opacity: 0.01;
 }
 
-.show-menu-enter.show-menu-enter-active {
+.show-levels-enter.show-levels-enter-active {
   opacity: 1;
   height: 180px;
   transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
 }
 
-.show-menu-leave {
+.show-levels-leave {
   opacity: 1;
   height: 180px;
 }
 
-.show-menu-leave.show-menu-leave-active, .show-alert-leave.show-alert-leave-active {
+.show-levels-leave.show-levels-leave-active, .show-alert-leave.show-alert-leave-active {
   opacity: 0.01;
   height: 0;
   transition: opacity 500ms ease-in-out, height 500ms ease-in-out;
@@ -178,4 +178,22 @@ input[type="number"] {
 .show-alert-leave {
   opacity: 1;
   height: 28px;
+}
+
+.show-enter {
+  opacity: 0.01;
+}
+
+.show-enter.show-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+.show-leave {
+  opacity: 1;
+}
+
+.show-leave.show-leave-active {
+  opacity: 0.01;
+  transition: opacity 500ms ease-in-out;
 }

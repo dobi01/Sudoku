@@ -8,7 +8,7 @@ import './AppMediaQueries.css';
 
 const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
       solvable = 'Keep solving! You\'re on the right way :-)',
-      solved = 'You\'ve solved the sudoku!';
+      solved = 'You\'ve solved the sudoku! Wow!';
 let alertClass = '';
 
 class App extends React.Component {
@@ -22,6 +22,7 @@ class App extends React.Component {
       newGame: false,
       alert: '',
       shownMenu: true,
+      shownBoard: false,
       width: window.innerWidth
     };
 
@@ -50,7 +51,8 @@ class App extends React.Component {
       board: newBoard,
       level,
       newGame: false,
-      alert: ''
+      alert: '',
+      shownBoard: true
     });
   }
 
@@ -79,6 +81,9 @@ class App extends React.Component {
 
   solve() {
     let solvedBoard = sudoku.solve(this.state.board);
+    if (this.state.width <= 910) {
+      this.toggleMenu();
+    }
     if (solvedBoard) {
       this.setState({
         board: solvedBoard
@@ -88,9 +93,7 @@ class App extends React.Component {
         alert: unsolvable
       });
     }
-    if (this.state.width <= 910) {
-      this.toggleMenu();
-    }
+
   }
 
   check() {
@@ -121,8 +124,8 @@ class App extends React.Component {
 
   toggleMenu() {
     const menuDiv = document.getElementById('buttons');
-    menuDiv.classList.toggle('is-not-visible');
-    this.state.shownMenu ? this.setState({shownMenu: false}) : this.setState({shownMenu: true});
+    if (menuDiv) menuDiv.classList.toggle('is-not-visible');
+    this.state.shownMenu ? this.setState({shownMenu: false, shownBoard: true}) : this.setState({shownMenu: true, shownBoard: false});
     this.setState({
       alert: ''
     });
@@ -133,33 +136,45 @@ class App extends React.Component {
 
   toggleBoard() {
     const boardDiv = document.getElementById('board');
-    boardDiv.classList.toggle('is-not-visible');
+    if (boardDiv) boardDiv.classList.toggle('is-not-visible');
   }
 
   render() {
-    console.log('render');
-    const levelsMenu = <LevelsMenu onClick={this.start} />;
+    const levelsMenu = <LevelsMenu onClick={this.start} />,
+      board = <Board
+        key="board"
+        board={this.state.board}
+        initialBoard={this.state.initialBoard}
+        onChange={this.enterNumber}
+      />,
+      menu = <div id="buttons">
+        <button type="text" onClick={this.toggleLevels}>NEW&nbsp;GAME</button>
+        <div className="select">
+          <CSSTransitionGroup
+            component="div"
+            transitionName="show-levels"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}>
+            {this.state.newGame ? levelsMenu : null}
+          </CSSTransitionGroup>
+        </div>
+        <button onClick={this.check}>CHECK</button>
+        <button onClick={this.reset}>RESTART</button>
+        <button onClick={this.solve}>SOLVE</button>
+      </div>;
     let alertSpan = <span className={alertClass}>{this.state.alert}</span>;
 
     return (
       <div className="app">
         <i className="fas fa-bars" onClick={this.toggleMenu}></i>
         <div className="container clearfix">
-          <div id="buttons">
-            <button type="text" onClick={this.toggleLevels}>NEW&nbsp;GAME</button>
-            <div className="select">
-              <CSSTransitionGroup
-                component="div"
-                transitionName="show-menu"
-                transitionEnterTimeout={500}
-                transitionLeaveTimeout={500}>
-                {this.state.newGame ? levelsMenu : null}
-              </CSSTransitionGroup>
-            </div>
-            <button onClick={this.check}>CHECK</button>
-            <button onClick={this.reset}>RESTART</button>
-            <button onClick={this.solve}>SOLVE</button>
-          </div>
+          <CSSTransitionGroup
+            component="div"
+            transitionName="show"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}>
+            {this.state.shownMenu ? menu : null}
+          </CSSTransitionGroup>
           <CSSTransitionGroup
             component="div"
             transitionName="show-alert"
@@ -167,11 +182,13 @@ class App extends React.Component {
             transitionLeaveTimeout={500}>
             {this.state.alert ? alertSpan : null}
           </CSSTransitionGroup>
-          <Board
-            board={this.state.board}
-            initialBoard={this.state.initialBoard}
-            onChange={this.enterNumber}
-          />
+          <CSSTransitionGroup
+            component="div"
+            transitionName="show"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}>
+            {this.state.shownBoard ? board : null}
+          </CSSTransitionGroup>
         </div>
       </div>
     );

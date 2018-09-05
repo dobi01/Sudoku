@@ -1,4 +1,4 @@
-@media (max-width: 1200px) {
+@media (max-width: 4200px) {
   #buttons, #board, .container span {
     float: left;
     position: static;
@@ -29,6 +29,12 @@
   }
   .levels {
     font-size: 25px;
+  }
+  .show-levels-enter.show-levels-enter-active {
+    height: 223.2px;
+  }
+  .show-levels-leave {
+    height: 223.2px;
   }
   .container {
     width: 342.2px;

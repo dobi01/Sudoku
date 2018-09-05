@@ -17,6 +17,7 @@ class Board extends React.Component {
              
           for (let i = 2; i < 82; i = i + 9) {
             if (i === ind) verticalBorderTile = el;
+            console.log('render');
           }
           for (let i = 5; i < 82; i = i + 9) {
             if (i === ind) verticalBorderTile = el;
