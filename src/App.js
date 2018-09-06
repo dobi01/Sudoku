@@ -116,7 +116,7 @@ class App extends React.Component {
       alert: ''
     });
     alertClass = '';
-    if (this.state.width <= 910) {
+    if (this.state.width <= 910 && this.state.initialBoard) {
       this.toggleMenu();
     }
   }
