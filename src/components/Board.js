@@ -11,12 +11,14 @@ class Board extends React.Component {
       <form id="board">
         {boardArray.map((el, ind) => {
           let initialTile = initialBoardArray[ind] !== '.';
+
+          
           return (
             <Tile
               key={ind}
               onChange={e => this.props.onChange(e, ind)}
               value={el === '.' ? '' : el}
-              readOnly={initialTile ? true : false}
+              readOnly={initialTile || this.props.cheated ? true : false}
               className={initialTile ? 'inmutable-tile' : 'mutable-tile'}
             />);
         })}

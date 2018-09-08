@@ -23,6 +23,7 @@ class App extends React.Component {
       alert: '',
       shownMenu: true,
       shownBoard: false,
+      cheated: false,
       width: window.innerWidth
     };
 
@@ -84,9 +85,17 @@ class App extends React.Component {
     if (this.state.width <= 910) {
       this.toggleMenu();
     }
+    if (!this.state.cheated && solvedBoard === this.state.board) {
+      this.setState({
+        alert: solved
+      });
+      alertClass = 'win';
+      return;
+    }
     if (solvedBoard) {
       this.setState({
-        board: solvedBoard
+        board: solvedBoard,
+        cheated: true
       });
     } else {
       this.setState({
@@ -113,7 +122,8 @@ class App extends React.Component {
   reset() {
     this.setState({
       board: this.state.initialBoard,
-      alert: ''
+      alert: '',
+      cheated: false
     });
     alertClass = '';
     if (this.state.width <= 910 && this.state.initialBoard) {
@@ -143,6 +153,7 @@ class App extends React.Component {
       board = <Board
         key="board"
         board={this.state.board}
+        cheated={this.state.cheated}
         initialBoard={this.state.initialBoard}
         onChange={this.enterNumber}
       />,
@@ -170,6 +181,8 @@ class App extends React.Component {
           <CSSTransitionGroup
             component="div"
             transitionName="show"
+            transitionAppear={true}
+            transitionAppearTimeout={1000}
             transitionEnterTimeout={500}
             transitionLeaveTimeout={500}>
             {this.state.shownMenu ? menu : null}

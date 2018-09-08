@@ -209,3 +209,12 @@ input[type="number"] {
   opacity: 0.01;
   transition: opacity 500ms ease-in-out;
 }
+
+.show-appear {
+  opacity: 0.01;
+}
+
+.show-appear.show-appear-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in-out;
+}
