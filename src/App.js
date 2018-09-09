@@ -5,6 +5,34 @@ import LevelsMenu from './components/LevelsMenu';
 import sudoku from 'sudoku-umd';
 import './App.css';
 import './AppMediaQueries.css';
+import * as bubbly from 'bubbly-bg';
+
+function makeBubbles(colorStart, colorStop) {
+  const winWidth = window.innerWidth;
+  let bubbles = winWidth <= 910 ? 7 : 23;
+  window.bubbly({
+    colorStart: colorStart,
+    colorStop: colorStop,
+    bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, ${Math.random() * 0.3})`,
+    blur: 6,
+    shadowColor: '#DDE7F2',
+    bubbles: bubbles,
+  });
+}
+
+makeBubbles('#6900ff', '#9951ff');
+
+const colors = [
+    ['#6900ff', '#9951ff'],
+    ['#5D4157', '#A8CABA'],
+    ['#c21500', '#ffc500'],
+    ['#FC354C', '#0ABFBC'],
+    ['#000428', '#004e92'],
+    ['#544a7d', '#ffd452'],
+    ['#009FFF', '#ec2F4B'],
+    ['#200122', '#6f0000']
+  ],
+  colorsLength =  colors.length;
 
 const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
   solvable = 'Keep solving! You\'re on the right way :-)',
@@ -24,6 +52,7 @@ class App extends React.Component {
       shownMenu: true,
       shownBoard: false,
       cheated: false,
+      colorIndex: 1,
       width: window.innerWidth
     };
 
@@ -35,6 +64,17 @@ class App extends React.Component {
     this.toggleLevels = this.toggleLevels.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleBoard = this.toggleBoard.bind(this);
+    this.setColor = this.setColor.bind(this);
+  }
+
+  setColor() {
+    let newColorIndex = this.state.colorIndex;
+    newColorIndex++;
+    if (newColorIndex >= colorsLength) newColorIndex = 0;
+    this.setState({
+      colorIndex: newColorIndex
+    });
+    makeBubbles(colors[this.state.colorIndex][0], colors[this.state.colorIndex][1]);
   }
 
   start(e) {
@@ -176,6 +216,7 @@ class App extends React.Component {
         <button onClick={this.check}>CHECK</button>
         <button onClick={this.reset}>RESTART</button>
         <button onClick={this.solve}>SOLVE</button>
+        <button onClick={this.setColor}>COLOR</button>
       </div>,
       alertSpan = <span className={alertClass}>{this.state.alert}</span>;
 

@@ -11,7 +11,6 @@ class Board extends React.Component {
       <form id="board">
         {boardArray.map((el, ind) => {
           let initialTile = initialBoardArray[ind] !== '.';
-
           
           return (
             <Tile
