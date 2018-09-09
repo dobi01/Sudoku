@@ -20,19 +20,19 @@
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  height: 495.2px;
+  height: 496.6px;
 }
 
 #board {
-  width: 495.2px;
-  height: 495.2px;
+  width: 496.6px;
+  height: 496.6px;
 }
 
 #buttons {
   position: absolute;
   left: -250px;
   width: 150px; 
-  height: 495.2px;
+  height: 496.6px;
   z-index: 10;
 }
 
@@ -130,7 +130,7 @@ input[type="number"] {
   font-size: 20px;
   background: rgba(0, 0, 0, 0.35);
   color: #FFC1FF;
-  width: 495.2px;
+  width: 496.7px;
 }
 
 .win {

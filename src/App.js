@@ -81,6 +81,9 @@ class App extends React.Component {
   }
 
   solve() {
+    this.setState({
+      alert: ''
+    });
     let solvedBoard = sudoku.solve(this.state.board);
     if (this.state.width <= 910) {
       this.toggleMenu();
@@ -105,18 +108,20 @@ class App extends React.Component {
   }
 
   check() {
-    let solvedBoard = sudoku.solve(this.state.board);
-    if (this.state.width <= 910) {
-      this.toggleMenu();
-    }
-    if (solvedBoard === this.state.board) {
-      this.setState({
-        alert: solved
-      });
-      alertClass = 'win';
-      return;
-    }
-    solvedBoard ? this.setState({ alert: solvable }) : this.setState({ alert: unsolvable });
+    if (!this.state.cheated) {
+      let solvedBoard = sudoku.solve(this.state.board);
+      if (this.state.width <= 910) {
+        this.toggleMenu();
+      }
+      if (solvedBoard === this.state.board) {
+        this.setState({
+          alert: solved
+        });
+        alertClass = 'win';
+        return;
+      }
+      solvedBoard ? this.setState({ alert: solvable }) : this.setState({ alert: unsolvable });
+    } 
   }
 
   reset() {
