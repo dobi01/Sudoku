@@ -20,11 +20,9 @@ function makeBubbles(colorStart, colorStop) {
   });
 }
 
-makeBubbles('#6900ff', '#9951ff');
-
 const colors = [
-    ['#6900ff', '#9951ff'],
     ['#5D4157', '#A8CABA'],
+    ['#6900ff', '#9951ff'],
     ['#c21500', '#ffc500'],
     ['#FC354C', '#0ABFBC'],
     ['#000428', '#004e92'],
@@ -33,6 +31,8 @@ const colors = [
     ['#200122', '#6f0000']
   ],
   colorsLength =  colors.length;
+
+makeBubbles(colors[0][0], colors[0][1]);
 
 const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
   solvable = 'Keep solving! You\'re on the right way :-)',
