@@ -75,6 +75,8 @@ class App extends React.Component {
       colorIndex: newColorIndex
     });
     makeBubbles(colors[this.state.colorIndex][0], colors[this.state.colorIndex][1]);
+    let canvas = document.getElementsByTagName('canvas');
+    canvas[0].remove();
   }
 
   start(e) {
