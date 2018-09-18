@@ -32,11 +32,11 @@ const colors = [
   ],
   colorsLength =  colors.length;
 
-makeBubbles(colors[0][0], colors[0][1]);
-
 const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
   solvable = 'Keep solving! You\'re on the right way :-)',
-  solved = 'You\'ve solved the sudoku! Wow!';
+  solved = 'You\'ve solved the sudoku! Wow!',
+  noStorage = 'Sorry! Your browser doesn\'t support local storage or you\'re in private browsing mode',
+  saved = 'Saved! You can return any time :-)';
 let alertClass = '';
 
 class App extends React.Component {
@@ -52,8 +52,9 @@ class App extends React.Component {
       shownMenu: true,
       shownBoard: false,
       cheated: false,
-      colorIndex: 1,
-      width: window.innerWidth
+      colorIndex: 0,
+      width: window.innerWidth,
+      isStorageAvailable: this.props.isStorageAvailable 
     };
 
     this.start = this.start.bind(this);
@@ -64,19 +65,51 @@ class App extends React.Component {
     this.toggleLevels = this.toggleLevels.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleBoard = this.toggleBoard.bind(this);
+    this.changeColor = this.changeColor.bind(this);
     this.setColor = this.setColor.bind(this);
+    this.save = this.save.bind(this);
+    this.load = () => {
+      this.state.colorIndex = localStorage.getItem('colorIndex');
+      this.state.initialBoard = localStorage.getItem('initialBoard');
+      this.state.board = localStorage.getItem('board');
+      this.state.shownBoard = true;
+      this.state.width <= 910 ? this.state.shownMenu = false : null;
+      this.setColor();
+    };
+
+    localStorage.length ? this.load() : this.setColor();
   }
 
-  setColor() {
+  save() {
+    if (this.state.initialBoard) {
+      if (this.state.isStorageAvailable) {
+        localStorage.setItem('colorIndex', this.state.colorIndex);
+        localStorage.setItem('initialBoard', this.state.initialBoard);
+        localStorage.setItem('board', this.state.board);
+        this.state.width <= 910 ? this.toggleMenu() : null;
+        this.setState({alert: saved});
+      } else {
+        this.setState({alert: noStorage});
+      }
+    } 
+  }
+
+  changeColor() {
     let newColorIndex = this.state.colorIndex;
     newColorIndex++;
     if (newColorIndex >= colorsLength) newColorIndex = 0;
     this.setState({
-      colorIndex: newColorIndex
+      colorIndex: newColorIndex,
+      alert: ''
+    }, function() {
+      this.setColor();
     });
+  }
+
+  setColor() {
     makeBubbles(colors[this.state.colorIndex][0], colors[this.state.colorIndex][1]);
     let canvas = document.getElementsByTagName('canvas');
-    canvas[0].remove();
+    canvas.length > 1 ? canvas[0].remove() : null;
   }
 
   start(e) {
@@ -135,6 +168,7 @@ class App extends React.Component {
         alert: solved
       });
       alertClass = 'win';
+      localStorage.clear();
       return;
     }
     if (solvedBoard) {
@@ -160,6 +194,7 @@ class App extends React.Component {
           alert: solved
         });
         alertClass = 'win';
+        localStorage.clear();
         return;
       }
       solvedBoard ? this.setState({ alert: solvable }) : this.setState({ alert: unsolvable });
@@ -218,7 +253,8 @@ class App extends React.Component {
         <button onClick={this.check}>CHECK</button>
         <button onClick={this.reset}>RESTART</button>
         <button onClick={this.solve}>SOLVE</button>
-        <button onClick={this.setColor}>COLOR</button>
+        <button onClick={this.save}>SAVE</button>
+        <button onClick={this.changeColor}>COLOR</button>
       </div>,
       alertSpan = <span className={alertClass}>{this.state.alert}</span>;
 
