@@ -7,31 +7,6 @@ import './App.css';
 import './AppMediaQueries.css';
 import * as bubbly from 'bubbly-bg';
 
-function makeBubbles(colorStart, colorStop) {
-  const winWidth = window.innerWidth;
-  let bubbles = winWidth <= 910 ? 7 : 23;
-  window.bubbly({
-    colorStart: colorStart,
-    colorStop: colorStop,
-    bubbleFunc: () => `hsla(${Math.random() * 360}, 100%, 50%, ${Math.random() * 0.3})`,
-    blur: 6,
-    shadowColor: '#DDE7F2',
-    bubbles: bubbles,
-  });
-}
-
-const colors = [
-    ['#5D4157', '#A8CABA'],
-    ['#6900ff', '#9951ff'],
-    ['#c21500', '#ffc500'],
-    ['#FC354C', '#0ABFBC'],
-    ['#000428', '#004e92'],
-    ['#544a7d', '#ffd452'],
-    ['#009FFF', '#ec2F4B'],
-    ['#200122', '#6f0000']
-  ],
-  colorsLength =  colors.length;
-
 const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
   solvable = 'Keep solving! You\'re on the right way :-)',
   solved = 'You\'ve solved the sudoku! Wow!',
@@ -97,7 +72,7 @@ class App extends React.Component {
   changeColor() {
     let newColorIndex = this.state.colorIndex;
     newColorIndex++;
-    if (newColorIndex >= colorsLength) newColorIndex = 0;
+    if (newColorIndex >= this.props.colorsLength) newColorIndex = 0;
     this.setState({
       colorIndex: newColorIndex,
       alert: ''
@@ -107,7 +82,7 @@ class App extends React.Component {
   }
 
   setColor() {
-    makeBubbles(colors[this.state.colorIndex][0], colors[this.state.colorIndex][1]);
+    this.props.makeBubbles(this.props.colors[this.state.colorIndex][0], this.props.colors[this.state.colorIndex][1]);
     let canvas = document.getElementsByTagName('canvas');
     canvas.length > 1 ? canvas[0].remove() : null;
   }
