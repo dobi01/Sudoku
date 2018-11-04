@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import Board from './components/Board';
-import LevelsMenu from './components/LevelsMenu';
+import MainMenu from './components/MainMenu';
 import sudoku from 'sudoku-umd';
 import {colors, alertUnsolvable, alertSolvable, alertSolved, alertNoStorage, alertSaved} from './data/data';
 import './App.css';
@@ -182,9 +182,7 @@ class App extends React.Component {
   }
 
   render() {
-    const levelsMenu = <LevelsMenu onClick={this.start} />,
-
-      board = <Board
+    const board = <Board
         key="board"
         board={this.state.board}
         initialBoard={this.state.initialBoard}
@@ -192,24 +190,17 @@ class App extends React.Component {
         updateBoard={this.enterNumber}
       />,
 
-      menu = <div id="buttons">
-        <button type="text" onClick={this.toggleLevels}>NEW&nbsp;GAME</button>
-        <div className="select">
-          <CSSTransitionGroup
-            component="div"
-            transitionName="show-levels"
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}>
-            {this.state.newGame ? levelsMenu : null}
-          </CSSTransitionGroup>
-        </div>
-        <button onClick={this.check}>CHECK</button>
-        <button onClick={this.reset}>RESTART</button>
-        <button onClick={this.solve}>SOLVE</button>
-        <button onClick={this.save}>SAVE</button>
-        <button onClick={this.changeColor}>COLOR</button>
-      </div>,
-      
+      mainMenu = <MainMenu
+        toggleLevels={this.toggleLevels}
+        newGame={this.state.newGame}
+        start={this.start}
+        check={this.check}
+        reset={this.reset}
+        solve={this.solve}
+        save={this.save}
+        changeColor={this.changeColor}
+      />,
+
       alertSpan = <span className={this.state.alertClass}>{this.state.alert}</span>;
 
     return (
@@ -223,21 +214,21 @@ class App extends React.Component {
             transitionAppearTimeout={1000}
             transitionEnterTimeout={500}
             transitionLeaveTimeout={500}>
-            {this.state.shownMenu ? menu : null}
+            {this.state.shownMenu && mainMenu}
           </CSSTransitionGroup>
           <CSSTransitionGroup
             component="div"
             transitionName="show-alert"
             transitionEnterTimeout={500}
             transitionLeaveTimeout={500}>
-            {this.state.alert ? alertSpan : null}
+            {this.state.alert && alertSpan}
           </CSSTransitionGroup>
           <CSSTransitionGroup
             component="div"
             transitionName="show"
             transitionEnterTimeout={500}
             transitionLeaveTimeout={500}>
-            {this.state.shownBoard ? board : null}
+            {this.state.shownBoard && board}
           </CSSTransitionGroup>
         </div>
       </div>

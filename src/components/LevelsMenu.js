@@ -9,7 +9,7 @@ const LevelsMenu = (props) =>
         className="levels"
         key={levelsValue}
         value={level}
-        onClick={e => props.onClick(e)}>
+        onClick={e => props.start(e)}>
         {levelsValue}
       </button>;
     })}
