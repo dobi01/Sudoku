@@ -1,19 +1,15 @@
 import React from 'react';
 
 class Tile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-  }
 
-  handleChange(e) {
+  handleChange = (e) => {
     let value = e.target.value;
     if (value.length > 1) { 
       value = value.slice(0, 1);
     } else if (value.length === 0) {
       value = '.';
     }
-    this.props.onChange(value);
+    this.props.updateBoard(value);
   }
 
   render() {

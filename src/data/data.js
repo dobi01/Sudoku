@@ -9,10 +9,19 @@ const colors = [
   ['#200122', '#6f0000']
 ];
 
+const levels = {
+  easy: 'easy',
+  medium: 'medium',
+  hard: 'hard',
+  'very-hard': 'very hard',
+  insane: 'insane',
+  inhuman: 'inhuman'
+};
+
 const alertUnsolvable = 'You\'ve made a mistake somewhere. Try again!',
   alertSolvable = 'Keep solving! You\'re on the right way :-)',
   alertSolved = 'You\'ve solved the sudoku! Wow!',
   alertNoStorage = 'Sorry! Your browser doesn\'t support local storage or you\'re in private browsing mode',
   alertSaved = 'Saved! You can return any time :-)';
 
-export {colors, alertUnsolvable, alertSolvable, alertSolved, alertNoStorage, alertSaved};
+export {colors, levels, alertUnsolvable, alertSolvable, alertSolved, alertNoStorage, alertSaved};

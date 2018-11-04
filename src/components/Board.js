@@ -1,29 +1,22 @@
 import React from 'react';
 import Tile from './Tile';
 
-class Board extends React.Component {
+const Board = (props) => 
+  <form id="board">
+    {props.board.split('').map((el, ind) => {
+      let initialBoardArray = props.initialBoard.split(''),
+        initialTile = initialBoardArray[ind] !== '.';
+      
+      return (
+        <Tile
+          key={ind}
+          updateBoard={e => props.updateBoard(e, ind)}
+          value={el === '.' ? '' : el}
+          readOnly={initialTile || props.cheated ? true : false}
+          className={initialTile ? 'inmutable-tile' : 'mutable-tile'}
+        />);
 
-  render() {
-    let boardArray = this.props.board.split(''),
-      initialBoardArray = this.props.initialBoard.split('');
-
-    return (
-      <form id="board">
-        {boardArray.map((el, ind) => {
-          let initialTile = initialBoardArray[ind] !== '.';
-          
-          return (
-            <Tile
-              key={ind}
-              onChange={e => this.props.onChange(e, ind)}
-              value={el === '.' ? '' : el}
-              readOnly={initialTile || this.props.cheated ? true : false}
-              className={initialTile ? 'inmutable-tile' : 'mutable-tile'}
-            />);
-        })}
-      </form>
-    );
-  }
-}
+    })}
+  </form>;
 
 export default Board;

@@ -27,17 +27,6 @@ class App extends React.Component {
       isStorageAvailable: this.props.isStorageAvailable 
     };
 
-    this.start = this.start.bind(this);
-    this.enterNumber = this.enterNumber.bind(this);
-    this.reset = this.reset.bind(this);
-    this.solve = this.solve.bind(this);
-    this.check = this.check.bind(this);
-    this.toggleLevels = this.toggleLevels.bind(this);
-    this.toggleMenu = this.toggleMenu.bind(this);
-    this.toggleBoard = this.toggleBoard.bind(this);
-    this.changeColor = this.changeColor.bind(this);
-    this.setColor = this.setColor.bind(this);
-    this.save = this.save.bind(this);
     this.load = () => {
       this.state.colorIndex = localStorage.getItem('colorIndex');
       this.state.initialBoard = localStorage.getItem('initialBoard');
@@ -50,7 +39,7 @@ class App extends React.Component {
     localStorage.length ? this.load() : this.setColor();
   }
 
-  save() {
+  save = () => {
     if (this.state.initialBoard) {
       if (this.state.isStorageAvailable) {
         localStorage.setItem('colorIndex', this.state.colorIndex);
@@ -64,33 +53,29 @@ class App extends React.Component {
     } 
   }
 
-  changeColor() {
+  changeColor = () => {
     let newColorIndex = this.state.colorIndex;
     newColorIndex++;
     if (newColorIndex >= colors.length) newColorIndex = 0;
     this.setState({
       colorIndex: newColorIndex,
       alert: ''
-    }, function() {
-      this.setColor();
-    });
+    }, () => this.setColor());
   }
 
-  setColor() {
+  setColor = () => {
     this.props.makeBubbles(colors[this.state.colorIndex][0], colors[this.state.colorIndex][1]);
     let canvas = document.getElementsByTagName('canvas');
     canvas.length > 1 ? canvas[0].remove() : null;
   }
 
-  start(e) {
+  start = (e) => {
     this.setState({alertClass: ''});
     let level = e.target.value;
     if (!level) return;
+
     let newBoard = sudoku.generate(level);
-    
-    if (this.state.width <= 910) {
-      this.toggleMenu();
-    }
+    if (this.state.width <= 910) this.toggleMenu();
     
     this.setState({
       initialBoard: newBoard, 
@@ -102,13 +87,13 @@ class App extends React.Component {
     });
   }
 
-  toggleLevels() {
+  toggleLevels = () => {
     this.setState({
       newGame: true
     });
   }
 
-  enterNumber(el, ind) {
+  enterNumber = (el, ind) => {
     let boardArray = this.state.board.split('');
     let newBoard = boardArray.map((tile, i) => {
       if (i === ind) {
@@ -125,14 +110,13 @@ class App extends React.Component {
     });
   }
 
-  solve() {
+  solve = () => {
     this.setState({
       alert: ''
     });
     let solvedBoard = sudoku.solve(this.state.board);
-    if (this.state.width <= 910) {
-      this.toggleMenu();
-    }
+    if (this.state.width <= 910) this.toggleMenu();
+
     if (!this.state.cheated && solvedBoard === this.state.board) {
       this.setState({
         alert: alertSolved,
@@ -141,6 +125,7 @@ class App extends React.Component {
       localStorage.clear();
       return;
     }
+
     if (solvedBoard) {
       this.setState({
         board: solvedBoard,
@@ -153,12 +138,11 @@ class App extends React.Component {
     }
   }
 
-  check() {
+  check = () => {
     if (!this.state.cheated) {
       let solvedBoard = sudoku.solve(this.state.board);
-      if (this.state.width <= 910) {
-        this.toggleMenu();
-      }
+      if (this.state.width <= 910) this.toggleMenu();
+
       if (solvedBoard === this.state.board) {
         this.setState({
           alert: alertSolved,
@@ -167,48 +151,47 @@ class App extends React.Component {
         localStorage.clear();
         return;
       }
+
       solvedBoard ? this.setState({ alert: alertSolvable }) : this.setState({ alert: alertUnsolvable });
     } 
   }
 
-  reset() {
+  reset = () => {
     this.setState({
       board: this.state.initialBoard,
       alert: '',
       alertClass: '',
       cheated: false
     });   
-    if (this.state.width <= 910 && this.state.initialBoard) {
-      this.toggleMenu();
-    }
+    if (this.state.width <= 910 && this.state.initialBoard) this.toggleMenu();
   }
 
-  toggleMenu() {
+  toggleMenu = () => {
     const menuDiv = document.getElementById('buttons');
     if (menuDiv) menuDiv.classList.toggle('is-not-visible');
     this.state.shownMenu ? this.setState({shownMenu: false, shownBoard: true}) : this.setState({shownMenu: true, shownBoard: false});
     this.setState({
       alert: ''
     });
-    if (this.state.initialBoard && this.state.width <= 910) {
-      this.toggleBoard();
-    }
+    if (this.state.width <= 910 && this.state.initialBoard) this.toggleBoard();
   }
 
-  toggleBoard() {
+  toggleBoard = () => {
     const boardDiv = document.getElementById('board');
     if (boardDiv) boardDiv.classList.toggle('is-not-visible');
   }
 
   render() {
     const levelsMenu = <LevelsMenu onClick={this.start} />,
+
       board = <Board
         key="board"
         board={this.state.board}
-        cheated={this.state.cheated}
         initialBoard={this.state.initialBoard}
-        onChange={this.enterNumber}
+        cheated={this.state.cheated}
+        updateBoard={this.enterNumber}
       />,
+
       menu = <div id="buttons">
         <button type="text" onClick={this.toggleLevels}>NEW&nbsp;GAME</button>
         <div className="select">
@@ -226,6 +209,7 @@ class App extends React.Component {
         <button onClick={this.save}>SAVE</button>
         <button onClick={this.changeColor}>COLOR</button>
       </div>,
+      
       alertSpan = <span className={this.state.alertClass}>{this.state.alert}</span>;
 
     return (
