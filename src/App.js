@@ -3,16 +3,10 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import Board from './components/Board';
 import LevelsMenu from './components/LevelsMenu';
 import sudoku from 'sudoku-umd';
+import {colors, alertUnsolvable, alertSolvable, alertSolved, alertNoStorage, alertSaved} from './data/data';
 import './App.css';
 import './AppMediaQueries.css';
 import * as bubbly from 'bubbly-bg';
-
-const unsolvable = 'You\'ve made a mistake somewhere. Try again!',
-  solvable = 'Keep solving! You\'re on the right way :-)',
-  solved = 'You\'ve solved the sudoku! Wow!',
-  noStorage = 'Sorry! Your browser doesn\'t support local storage or you\'re in private browsing mode',
-  saved = 'Saved! You can return any time :-)';
-let alertClass = '';
 
 class App extends React.Component {
 
@@ -24,6 +18,7 @@ class App extends React.Component {
       level: '',
       newGame: false,
       alert: '',
+      alertClass: '',
       shownMenu: true,
       shownBoard: false,
       cheated: false,
@@ -62,9 +57,9 @@ class App extends React.Component {
         localStorage.setItem('initialBoard', this.state.initialBoard);
         localStorage.setItem('board', this.state.board);
         this.state.width <= 910 ? this.toggleMenu() : null;
-        this.setState({alert: saved});
+        this.setState({alert: alertSaved});
       } else {
-        this.setState({alert: noStorage});
+        this.setState({alert: alertNoStorage});
       }
     } 
   }
@@ -72,7 +67,7 @@ class App extends React.Component {
   changeColor() {
     let newColorIndex = this.state.colorIndex;
     newColorIndex++;
-    if (newColorIndex >= this.props.colorsLength) newColorIndex = 0;
+    if (newColorIndex >= colors.length) newColorIndex = 0;
     this.setState({
       colorIndex: newColorIndex,
       alert: ''
@@ -82,13 +77,13 @@ class App extends React.Component {
   }
 
   setColor() {
-    this.props.makeBubbles(this.props.colors[this.state.colorIndex][0], this.props.colors[this.state.colorIndex][1]);
+    this.props.makeBubbles(colors[this.state.colorIndex][0], colors[this.state.colorIndex][1]);
     let canvas = document.getElementsByTagName('canvas');
     canvas.length > 1 ? canvas[0].remove() : null;
   }
 
   start(e) {
-    alertClass = '';
+    this.setState({alertClass: ''});
     let level = e.target.value;
     if (!level) return;
     let newBoard = sudoku.generate(level);
@@ -140,9 +135,9 @@ class App extends React.Component {
     }
     if (!this.state.cheated && solvedBoard === this.state.board) {
       this.setState({
-        alert: solved
+        alert: alertSolved,
+        alertClass: 'win'
       });
-      alertClass = 'win';
       localStorage.clear();
       return;
     }
@@ -153,7 +148,7 @@ class App extends React.Component {
       });
     } else {
       this.setState({
-        alert: unsolvable
+        alert: alertUnsolvable
       });
     }
   }
@@ -166,13 +161,13 @@ class App extends React.Component {
       }
       if (solvedBoard === this.state.board) {
         this.setState({
-          alert: solved
+          alert: alertSolved,
+          alertClass: 'win'
         });
-        alertClass = 'win';
         localStorage.clear();
         return;
       }
-      solvedBoard ? this.setState({ alert: solvable }) : this.setState({ alert: unsolvable });
+      solvedBoard ? this.setState({ alert: alertSolvable }) : this.setState({ alert: alertUnsolvable });
     } 
   }
 
@@ -180,9 +175,9 @@ class App extends React.Component {
     this.setState({
       board: this.state.initialBoard,
       alert: '',
+      alertClass: '',
       cheated: false
-    });
-    alertClass = '';
+    });   
     if (this.state.width <= 910 && this.state.initialBoard) {
       this.toggleMenu();
     }
@@ -231,7 +226,7 @@ class App extends React.Component {
         <button onClick={this.save}>SAVE</button>
         <button onClick={this.changeColor}>COLOR</button>
       </div>,
-      alertSpan = <span className={alertClass}>{this.state.alert}</span>;
+      alertSpan = <span className={this.state.alertClass}>{this.state.alert}</span>;
 
     return (
       <div className="app">

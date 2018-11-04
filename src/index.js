@@ -43,23 +43,10 @@ function makeBubbles(colorStart, colorStop) {
   });
 }
 
-const colors = [
-    ['#5D4157', '#A8CABA'],
-    ['#6900ff', '#9951ff'],
-    ['#c21500', '#ffc500'],
-    ['#FC354C', '#0ABFBC'],
-    ['#000428', '#004e92'],
-    ['#544a7d', '#ffd452'],
-    ['#009FFF', '#ec2F4B'],
-    ['#200122', '#6f0000']
-  ],
-  colorsLength =  colors.length;
-
 ReactDOM.render(<App 
   isStorageAvailable={isStorageAvailable} 
   makeBubbles={makeBubbles} 
-  colors={colors} 
-  colorsLength={colorsLength}/>, 
+/>, 
 document.getElementById('root'));
 
 registerServiceWorker();
